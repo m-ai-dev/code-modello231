@@ -1,6 +1,7 @@
 "use client";
 import {useState, useEffect, useRef} from 'react';
-import {postMessage} from '../lib/api.js';
+import {APIData} from '../lib/types';
+import {postMessage} from '../lib/api';
 import SmartTextarea from "../components/smart-textarea";
 
 interface Message {
@@ -10,7 +11,7 @@ interface Message {
   isLoading?: boolean;
 }
 
-export default function Chat() {
+export default function Chat({ onNewResponseAction }: { onNewResponseAction: (data?: APIData | null) => void }) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '0',
@@ -41,10 +42,13 @@ export default function Chat() {
     try {
       const data = await postMessage(question);
 
+      // Pass the data to the parent component
+      onNewResponseAction(data);
+
       // Update the loading message with actual response
       setMessages(prev => prev.map(msg =>
         msg.isLoading
-          ? {...msg, text: data.answer, isLoading: false}
+          ? {...msg, text: data ? data.answer : '', isLoading: false}
           : msg
       ));
     } catch (error) {
@@ -61,7 +65,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col relative w-full" style={{height: 'calc(100vh - 200px)'}}>
+    <div className="flex flex-col relative w-full h-full max-h-screen">
       <div
         ref={chatContainerRef}
         className="flex-1 max-h-[90%] space-y-4 overflow-y-auto branded-scrollbar"

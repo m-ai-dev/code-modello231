@@ -1,8 +1,18 @@
+"use client";
+import {useState} from 'react';
+import {APIData} from '../lib/types';
 import Chat from "../components/chat";
 import Document from "../components/document";
 import Footer from "../components/footer";
 
 export default function Main() {
+  const [documentData, setDocumentData] = useState<APIData | null>(null);
+
+  const handleNewResponse = (data?: APIData | null) => {
+    if (data) setDocumentData(data);
+    else setDocumentData(null);
+  };
+
   return (
     <div className="flex flex-col h-screen lg:p-12 md:p-6">
       <div className="flex justify-between h-fit">
@@ -19,11 +29,11 @@ export default function Main() {
       </div>
       <hr className="border-t border-gray-400 opacity-30 mt-4 mb-12"></hr>
       <div className="flex space-x-12">
-        <div className="w-1/2">
-          <Chat />
+        <div className="w-1/2 max-h-screen" style={{height: 'calc(100vh - 200px)'}}>
+          <Chat onNewResponseAction={handleNewResponse} />
         </div>
-        <div className="w-1/2">
-          <Document />
+        <div className="w-1/2 max-h-screen" style={{height: 'calc(100vh - 200px)'}}>
+          <Document data={documentData} />
         </div>
       </div>
       <Footer/>
