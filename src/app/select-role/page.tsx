@@ -62,7 +62,7 @@ export default function SelectRole() {
         </div>
 
         {/* Roles List */}
-        <div className="roles-list space-y-4 max-h-96 overflow-y-auto">
+        <div className="roles-list space-y-4 max-h-96 overflow-y-auto branded-scrollbar">
           {filteredRoles.map((role) => (
             <div
               key={role.id}
