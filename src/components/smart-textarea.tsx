@@ -69,7 +69,7 @@ const SmartTextarea = ({ onSubmit, isSubmitting }: SmartTextareaProps) => {
                 type="button"
                 onClick={handleSubmit}
                 aria-disabled={!value}
-                className="absolute right-3 text-brand hover:text-foreground disabled:opacity-40"
+                className="absolute right-3 text-brand hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"
                 disabled={isSubmitting || !value}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
